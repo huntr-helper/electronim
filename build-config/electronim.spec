@@ -4,7 +4,7 @@
 %global debug_package %{nil}
 
 Name: electronim
-Version: 0.0.0
+Version: 0.0.91
 Release: 0%{?dist}
 Summary: Electron based multi IM (Instant Messaging) client
 License: Apache-2.0
@@ -12,11 +12,16 @@ Url: https://github.com/manusa/electronim
 # Tag sources
 Source0: %{url}/archive/refs/tags/v%{version}.zip
 
+%if 0%{?fedora} >= 37
+BuildRequires: nodejs-npm
+%else
+BuildRequires: npm
+%endif
+
 BuildRequires: python3-devel
 BuildRequires: gcc-c++
 BuildRequires: git-core
 BuildRequires: make
-BuildRequires: npm
 BuildRequires: libglvnd-devel
 BuildRequires: libxcrypt-compat
 ExclusiveArch: x86_64
@@ -32,7 +37,7 @@ applications (or whatever you want) into a single browser (Electron) window.
 %build
 npm install
 #TODO automate or remove GITHUB_REF workaround
-GITHUB_REF=refs/tags/v%{version} node ./utils/version-from-tag.js
+GITHUB_REF=refs/tags/v0.0.91 node ./utils/version-from-tag.js
 node ./utils/prepare-electron-builder.js
 npm run build:linux
 
